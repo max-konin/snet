@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131213093101) do
+ActiveRecord::Schema.define(version: 20131213101114) do
+
+  create_table "edges", force: true do |t|
+    t.string   "name"
+    t.integer  "data_id"
+    t.string   "data_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "edges", ["data_id", "data_type"], name: "index_edges_on_data_id_and_data_type", using: :btree
 
   create_table "nodes", force: true do |t|
     t.string   "name"
