@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131213103958) do
+ActiveRecord::Schema.define(version: 20131213111617) do
 
   create_table "edges", force: true do |t|
     t.string   "name"
@@ -23,6 +23,15 @@ ActiveRecord::Schema.define(version: 20131213103958) do
 
   add_index "edges", ["data_id", "data_type"], name: "index_edges_on_data_id_and_data_type", using: :btree
 
+  create_table "edges_graphs", id: false, force: true do |t|
+    t.integer "graph_id"
+    t.integer "edge_id"
+  end
+
+  add_index "edges_graphs", ["edge_id"], name: "index_edges_graphs_on_edge_id", using: :btree
+  add_index "edges_graphs", ["graph_id", "edge_id"], name: "index_edges_graphs_on_graph_id_and_edge_id", using: :btree
+  add_index "edges_graphs", ["graph_id"], name: "index_edges_graphs_on_graph_id", using: :btree
+
   create_table "edges_nodes", id: false, force: true do |t|
     t.integer "node_id"
     t.integer "edge_id"
@@ -31,6 +40,21 @@ ActiveRecord::Schema.define(version: 20131213103958) do
   add_index "edges_nodes", ["edge_id"], name: "index_edges_nodes_on_edge_id", using: :btree
   add_index "edges_nodes", ["node_id", "edge_id"], name: "index_edges_nodes_on_node_id_and_edge_id", using: :btree
   add_index "edges_nodes", ["node_id"], name: "index_edges_nodes_on_node_id", using: :btree
+
+  create_table "graphs", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "graphs_nodes", id: false, force: true do |t|
+    t.integer "graph_id"
+    t.integer "node_id"
+  end
+
+  add_index "graphs_nodes", ["graph_id"], name: "index_graphs_nodes_on_graph_id", using: :btree
+  add_index "graphs_nodes", ["node_id", "graph_id"], name: "index_graphs_nodes_on_node_id_and_graph_id", using: :btree
+  add_index "graphs_nodes", ["node_id"], name: "index_graphs_nodes_on_node_id", using: :btree
 
   create_table "nodes", force: true do |t|
     t.string   "name"
