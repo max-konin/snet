@@ -4,7 +4,7 @@ server unix:/var/www/snet/shared/unicorn.sock fail_timeout=0;
 
 server {
   listen 80;
-  server_name vektor.kerweb.ru www.vektor.kerweb.ru;
+  server_name snet.kerweb.ru www.snet.kerweb.ru;
   client_max_body_size 1G;
 
   keepalive_timeout 5;
