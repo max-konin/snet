@@ -11,8 +11,8 @@ class @GraphView
     draw_node: (node)->
       nodes.push node
       myCircle = new ymaps.Circle([[node.longitude, node.latitude], 100], {
-        balloonContentBody: 'Балун',
-        hintContent: 'Хинт'
+        balloonContentHeader:  node.name,,
+        hintContent: node.name
       }, {
         draggable: true
       });
