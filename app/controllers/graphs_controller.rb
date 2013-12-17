@@ -69,6 +69,6 @@ class GraphsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def graph_params
-      params[:graph]
+      params[:graph].blank? ? nil : params.require(:graph).permit(:name)
     end
 end

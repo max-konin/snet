@@ -23,7 +23,7 @@ describe GraphsController do
   # This should return the minimal set of attributes required to create a valid
   # Graph. As you add validations to Graph, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { {  } }
+  let(:valid_attributes) { { name: 'name' } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -106,8 +106,8 @@ describe GraphsController do
         # specifies that the Graph created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Graph.any_instance.should_receive(:update).with({ "these" => "params" })
-        put :update, {:id => graph.to_param, :graph => { "these" => "params" }}, valid_session
+        Graph.any_instance.should_receive(:update).with({ "name" => "name" })
+        put :update, {:id => graph.to_param, :graph => { "name" => "name" }}, valid_session
       end
 
       it "assigns the requested graph as @graph" do
