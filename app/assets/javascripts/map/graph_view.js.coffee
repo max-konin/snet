@@ -18,9 +18,9 @@ class @GraphView
       });
       @map.geoObjects.add(myCircle);
 
-#    draw_graph: (graph) ->
-#      for node in graph.nodes
-#        @draw_node node
+    draw_nodes: (nodes) ->
+      for node in nodes
+        @draw_node node
 
 
 

@@ -1,6 +1,6 @@
 class YaMapInitializer
 
-  @yaMapController = new YaMapController
+  @graphController = new GraphController
 
   constructor : ->
     ymaps.ready(@init)
@@ -11,9 +11,10 @@ class YaMapInitializer
 
     @myMap.events.add "dblclick", (e, @yaMapController) ->
       coords = e.get('coordPosition');
-      YaMapInitializer.yaMapController.add_node(coords[0].toPrecision(6), coords[1].toPrecision(6))
+      YaMapInitializer.graphController.add_node(coords[0].toPrecision(6), coords[1].toPrecision(6))
 
     GraphView.get @myMap
+    GraphView.get().draw_nodes YaMapInitializer.graphController.get_nodes()
 
 
 
