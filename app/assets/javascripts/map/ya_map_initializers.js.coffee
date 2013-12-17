@@ -13,7 +13,7 @@ class YaMapInitializer
       coords = e.get('coordPosition');
       YaMapInitializer.graphController.add_node(coords[0].toPrecision(6), coords[1].toPrecision(6))
 
-    GraphView.get @myMap
+    GraphView.get().set_map @myMap
     GraphView.get().draw_nodes YaMapInitializer.graphController.get_nodes()
 
 
