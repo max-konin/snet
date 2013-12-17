@@ -3,11 +3,15 @@
 %table
   %tr
     %th
+      Name
+    %th
     %th
     %th
 
   - @graphs.each do |graph|
+
     %tr
+      %td= graph.name
       %td= link_to 'Show', graph
       %td= link_to 'Edit', edit_graph_path(graph)
       %td= link_to 'Destroy', graph, :method => :delete, :data => { :confirm => 'Are you sure?' }

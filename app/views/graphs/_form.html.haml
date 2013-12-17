@@ -5,6 +5,9 @@
       %ul
         - @graph.errors.full_messages.each do |msg|
           %li= msg
+  = f.label :name
+  = f.text_field :name
+
 
   .actions
     = f.submit 'Save'
