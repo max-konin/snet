@@ -1,6 +1,6 @@
 Snet::Application.routes.draw do
 
-  root 'graph#index'
+  root 'graphs#index'
 
   resources :graphs do
     resources :nodes
