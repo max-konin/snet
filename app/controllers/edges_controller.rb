@@ -74,10 +74,12 @@ class EdgesController < ApplicationController
     end
 
     def add_joined_node_to_graph
-      params[:edge][:nodes].each do |node|
-        @graph.nodes << Node.find(node) unless @graph.nodes.include? Node.find(node)
+      unless params[:edge][:nodes].nil?
+        params[:edge][:nodes].each do |node|
+          @graph.nodes << Node.find(node) unless @graph.nodes.include? Node.find(node)
+        end
+        @graph.save!
       end
-      @graph.save!
     end
 
 end
