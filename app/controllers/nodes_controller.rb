@@ -1,4 +1,7 @@
 class NodesController < ApplicationController
+
+  include OnlyJsonResponse
+
   before_action :set_node, only: [:show, :edit, :update, :destroy]
   before_action :set_graph, only: [:index, :create]
 
@@ -6,65 +9,44 @@ class NodesController < ApplicationController
   # GET /nodes.json
   def index
     @nodes = @graph.nodes
-    respond_to do |format|
-      format.html { render status: :forbidden, text: 'Only json allowed'}
-      format.json { render json: @nodes, status: :ok }
-    end
+    create_response { render json: @nodes, status: :ok }
   end
 
   # GET /nodes/1
   # GET /nodes/1.json
   def show
-    respond_to do |format|
-      format.html { render status: :forbidden, text: 'Only json allowed'}
-      format.json { render json: @node, status: :ok }
-    end
+    create_response { render json: @node, status: :ok }
   end
 
   # GET /nodes/new
   def new
     @node = Node.new
-    respond_to do |format|
-      format.html { render status: :forbidden, text: 'Only json allowed'}
-      format.json { render json: @node, status: :ok }
-    end
+    create_response { render json: @node, status: :ok }
   end
 
   # GET /nodes/1/edit
   def edit
-    respond_to do |format|
-      format.html { render status: :forbidden, text: 'Only json allowed'}
-      format.json { render json: @node, status: :ok }
-    end
+    create_response { render json: @node, status: :ok }
   end
 
   # POST /nodes
   # POST /nodes.json
   def create
     @node = @graph.nodes.create! node_params
-
-    respond_to do |format|
-      if @node.save
-        format.html { render status: :forbidden, text: 'Only json allowed'}
-        format.json { render json: @node, status: :ok }
-      else
-        format.html { fail NotImplementedError }
-        format.json { render json: @node.errors, status: :unprocessable_entity }
-      end
+    if @node.save
+      create_response { render json: @node, status: :ok }
+    else
+      create_response { render json: @node.errors, status: :unprocessable_entity }
     end
   end
 
   # PATCH/PUT /nodes/1
   # PATCH/PUT /nodes/1.json
   def update
-    respond_to do |format|
-      if @node.update(node_params)
-        format.html { render status: :forbidden, text: 'Only json allowed'}
-        format.json { head :no_content }
-      else
-        format.html { render status: :forbidden, text: 'Only json allowed'}
-        format.json { render json: @node.errors, status: :unprocessable_entity }
-      end
+    if @node.update(node_params)
+      create_response { head :no_content }
+    else
+      create_response { render json: @node.errors, status: :unprocessable_entity }
     end
   end
 
@@ -72,10 +54,7 @@ class NodesController < ApplicationController
   # DELETE /nodes/1.json
   def destroy
     @node.destroy
-    respond_to do |format|
-      format.html { render status: :forbidden, text: 'Only json allowed'}
-      format.json { head :no_content }
-    end
+    create_response { head :no_content }
   end
 
   private
