@@ -23,7 +23,7 @@ describe EdgesController do
   # This should return the minimal set of attributes required to create a valid
   # Edge. As you add validations to Edge, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { nodes: [ @node_1, @node_2 ] } }
+  let(:valid_attributes) { { nodes: [@node_1, @node_2] } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -86,6 +86,15 @@ describe EdgesController do
       it "returns status created" do
         post :create, { graph_id: @graph.id, edge: valid_attributes }, valid_session
         response.status.should be 201
+      end
+
+      it 'adds nodes in the graph if they are not there' do
+        node_1 = FactoryGirl.create :node
+        node_2 = FactoryGirl.create :node
+        @graph.nodes.should_not include(node_1, node_2)
+        post :create, { graph_id: @graph.id, edge: { nodes: [node_1, node_2]  } }, valid_session
+        @graph.reload
+        @graph.nodes.should include(node_1, node_2)
       end
     end
 

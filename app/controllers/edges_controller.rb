@@ -4,6 +4,7 @@ class EdgesController < ApplicationController
 
   before_action :set_graph
   before_action :set_edge, only: [:show, :edit, :update, :destroy]
+  before_action :add_joined_node_to_graph, only: [:create, :update]
 
   # GET /edges
   # GET /edges.json
@@ -32,7 +33,7 @@ class EdgesController < ApplicationController
   # POST /edges
   # POST /edges.json
   def create
-    @edge = Edge.new(edge_params)
+    @edge = @graph.edges.build(edge_params)
     if @edge.save
       create_response { render json: @edge, status: :created }
     else
@@ -70,6 +71,13 @@ class EdgesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def edge_params
       params.require(:edge).permit :nodes, :name
+    end
+
+    def add_joined_node_to_graph
+      params[:edge][:nodes].each do |node|
+        @graph.nodes << Node.find(node) unless @graph.nodes.include? Node.find(node)
+      end
+      @graph.save!
     end
 
 end
