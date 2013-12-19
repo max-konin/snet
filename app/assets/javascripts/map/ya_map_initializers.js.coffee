@@ -17,5 +17,21 @@ class YaMapInitializer
     GraphView.get().draw_nodes YaMapInitializer.graphController.get_nodes()
 
 
+    #gui handlers
+    $ =>
+      $('button#add_edge').on('click', =>
+        node_start = { id: $( "#start_node" ).val() }
+        node_end   = { id: $( "#end_node" ).val() }
+        YaMapInitializer.graphController.add_edge node_start, node_end
+      )
+    #end gui handlers
+
+
+
+
+
+
+
+
 
 @yaMapInitializer = new YaMapInitializer

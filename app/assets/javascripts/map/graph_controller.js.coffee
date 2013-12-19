@@ -19,6 +19,18 @@ class @GraphController
     ).responseText;
     $.parseJSON(results)
 
+  add_edge: (node_1, node_2) ->
+    url = document.URL + '/edges'
+    $.ajax url,
+      type: 'POST'
+      dataType: 'json'
+      data: {
+        edge:{
+          nodes: [node_1.id, node_2.id]
+        }
+      }
+      success: (data) ->
+        GraphView.get().draw_edge(data)
 
   add_node: (longitude, latitude) ->
     url = document.URL + '/nodes'
@@ -36,6 +48,7 @@ class @GraphController
 
   node_moved_handler: (event, target) =>
     @update_node target
+
 
 
 

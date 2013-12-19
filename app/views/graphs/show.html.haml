@@ -1,5 +1,13 @@
 %p#notice= notice
-
+.edge
+  %span
+    Add Edge
+  Start
+  = select_tag :start_node, options_for_select(@graph.nodes.map {|n| [n.name, n.id]})
+  End
+  = select_tag :end_node,   options_for_select(@graph.nodes.map {|n| [n.name, n.id]})
+  %button#add_edge
+    submit!
 #map
 
 \|
