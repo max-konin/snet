@@ -34,7 +34,8 @@ class EdgesController < ApplicationController
   # POST /edges.json
   def create
     @edge = @graph.edges.build(edge_params)
-    if @edge.save && add_nodes_to_edge(@edge)
+    @graph.edges << @edge
+    if @edge.save && add_nodes_to_edge(@edge) && @graph.save
       create_response { render json: @edge.to_json(include: :nodes), status: :created }
     else
       create_response { render json: @edge.errors, status: :unprocessable_entity }

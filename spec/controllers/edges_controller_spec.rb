@@ -82,6 +82,7 @@ describe EdgesController do
         assigns(:edge).should be_a(Edge)
         assigns(:edge).should be_persisted
         assigns(:edge).should have(2).nodes
+        @graph.reload.edges.should include assigns(:edge)
       end
 
       it "returns status created" do
