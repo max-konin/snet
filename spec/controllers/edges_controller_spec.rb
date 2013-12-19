@@ -149,4 +149,12 @@ describe EdgesController do
     end
   end
 
+  describe "POST create and GET index" do
+    it 'returns all edges in graph' do
+      post :create, { graph_id: @graph.id, edge: valid_attributes }, valid_session
+      edge = assigns :edge
+      get :index, { graph_id: @graph.id }, valid_session
+      assigns(:edges).should include edge
+    end
+  end
 end
