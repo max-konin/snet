@@ -81,6 +81,7 @@ describe EdgesController do
         post :create, { graph_id: @graph.id, edge: valid_attributes }, valid_session
         assigns(:edge).should be_a(Edge)
         assigns(:edge).should be_persisted
+        assigns(:edge).should have(2).nodes
       end
 
       it "returns status created" do
