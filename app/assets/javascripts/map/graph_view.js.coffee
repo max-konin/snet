@@ -4,15 +4,16 @@ class @GraphView
 
   class PrivateClass
 
-    nodes = []
-    edges = []
 
     constructor: () ->
-      @observers = []
+      @observers     = []
+      @geo_for_edges = []
+      @nodes         = []
+      @edges         = []
 
     get_node_cords: (node_id) ->
       node_id_num = parseInt node_id, 10
-      result = nodes.filter (n) -> n.id == node_id_num
+      result = @nodes.filter (n) -> n.id == node_id_num
       return null if result.length == 0
       node = result[0]
       [node.longitude, node.latitude]
@@ -24,7 +25,7 @@ class @GraphView
       @observers.push { 'event': event, 'handler': handler }
 
     draw_edge: (edge) ->
-      edges.push edge
+      @edges.push edge
       cords_start = @get_node_cords(edge.nodes[0].id)
       cords_end   = @get_node_cords(edge.nodes[1].id)
       line = new ymaps.GeoObject({
@@ -38,10 +39,19 @@ class @GraphView
         strokeWidth: 5
       }
       )
+      @geo_for_edges.push line
       @map.geoObjects.add(line)
 
+    redraw_edges: (edges) ->
+      for line in @geo_for_edges
+        @map.geoObjects.remove line
+      @geo_for_edges = []
+      @edges = []
+      for edge in edges
+        @draw_edge edge
+
     draw_node: (node)->
-      nodes.push node
+      @nodes.push node
       myCircle = new ymaps.Circle([[node.longitude, node.latitude], 100], {
         balloonContentHeader:  node.name
         hintContent: node.name
@@ -56,6 +66,7 @@ class @GraphView
         node.longitude = coords[0]
         node.latitude  = coords[1]
         @occurred('node_moved', node)
+        @redraw_edges(@edges)
       )
       @map.geoObjects.add(myCircle);
 

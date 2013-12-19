@@ -15,6 +15,7 @@ class YaMapInitializer
 
     GraphView.get().set_map @myMap
     GraphView.get().draw_nodes YaMapInitializer.graphController.get_nodes()
+    GraphView.get().redraw_edges YaMapInitializer.graphController.get_edges()
 
 
     #gui handlers

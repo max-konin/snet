@@ -10,7 +10,7 @@ class EdgesController < ApplicationController
   # GET /edges.json
   def index
     @edges = @graph.edges.all
-    create_response { render json: @edges, status: :ok }
+    create_response { render json: @edges.to_json(include: :nodes), status: :ok }
   end
 
   # GET /edges/1

@@ -19,6 +19,14 @@ class @GraphController
     ).responseText;
     $.parseJSON(results)
 
+  get_edges: ->
+    url = document.URL + '/edges'
+    results = $.ajax(url,
+      dataType: 'json'
+      type:     'GET'
+      async:    false,
+    ).responseText;
+    $.parseJSON(results)
   add_edge: (node_1, node_2) ->
     url = document.URL + '/edges'
     $.ajax url,
