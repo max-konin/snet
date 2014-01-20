@@ -1,14 +1,20 @@
 %p#notice= notice
-.edge
-  %span
-    Add Edge
-  Start
-  = select_tag :start_node, options_for_select(@graph.nodes.map {|n| [n.name, n.id]})
-  End
-  = select_tag :end_node,   options_for_select(@graph.nodes.map {|n| [n.name, n.id]})
-  %button#add_edge
-    submit!
-#map
+.row
+  .col-md-8
+    #map
+  .col-md-4
+    .edge
+      %span
+        Add Edge
+      .form-group
+        %label.control-label{for: :start_node} Start
+        = select_tag :start_node, options_for_select(@graph.nodes.map {|n| [n.name, n.id]})
+      .form-group
+        %label.control-label{for: :end_node} End
+        = select_tag :end_node,   options_for_select(@graph.nodes.map {|n| [n.name, n.id]})
+      %button#add_edge
+        submit!
+
 
 \|
 = link_to 'Back', graphs_path
