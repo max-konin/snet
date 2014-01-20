@@ -53,7 +53,7 @@ class @GraphView
     draw_node: (node)->
       @nodes.push node
       myCircle = new ymaps.Circle([[node.longitude, node.latitude], 100], {
-        balloonContentHeader:  node.name
+        balloonContentHeader: "#{node.name}</br> <a href='#' onclick='yaMapInitializer.remove_node(#{node.id})'>удалить</a> "
         hintContent: node.name
       }, {
         draggable: true

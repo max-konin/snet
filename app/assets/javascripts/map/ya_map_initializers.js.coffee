@@ -5,6 +5,10 @@ class YaMapInitializer
   constructor : ->
     ymaps.ready(@init)
 
+  remove_node: (id) ->
+    YaMapInitializer.graphController.remove_node id
+    location.reload()
+
   init : ->
     @myMap = new ymaps.Map 'map', { center:[55, 82.9], zoom: 12, behaviors:['default', 'scrollZoom'] }
     @myMap.behaviors.disable(['dblClickZoom', 'rightMouseButtonMagnifier'])

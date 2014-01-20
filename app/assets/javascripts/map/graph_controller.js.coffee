@@ -19,6 +19,14 @@ class @GraphController
     ).responseText;
     $.parseJSON(results)
 
+  remove_node: (id) ->
+    url = document.URL + "/nodes/#{id}"
+    results = $.ajax(url,
+      dataType: 'json'
+      type:     'DELETE'
+      async:    false,
+    ).responseText;
+
   get_edges: ->
     url = document.URL + '/edges'
     results = $.ajax(url,
@@ -27,6 +35,7 @@ class @GraphController
       async:    false,
     ).responseText;
     $.parseJSON(results)
+
   add_edge: (node_1, node_2) ->
     url = document.URL + '/edges'
     $.ajax url,

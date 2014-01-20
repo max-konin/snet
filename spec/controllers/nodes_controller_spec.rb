@@ -88,5 +88,13 @@ describe NodesController do
     end
   end
 
+  describe 'DELETE destroy' do
+    it 'destroy the node' do
+      expect {
+        delete :destroy, {graph_id: @graph, id: @node}
+      }.to change(Node, :count).by(-1)
+    end
+  end
+
 
 end
