@@ -1,0 +1,7 @@
+%h1 Редактирование вершины.
+= semantic_form_for [@graph, @node] do |f|
+  = f.inputs do
+    = f.input :name
+    = f.input :longitude
+    = f.input :latitude
+  = f.actions

@@ -3,7 +3,7 @@ class NodesController < ApplicationController
   include OnlyJsonResponse
 
   before_action :set_node, only: [:show, :edit, :update, :destroy]
-  before_action :set_graph, only: [:index, :create]
+  before_action :set_graph, only: [:edit, :index, :create]
 
   # GET /nodes
   # GET /nodes.json
@@ -26,7 +26,6 @@ class NodesController < ApplicationController
 
   # GET /nodes/1/edit
   def edit
-    create_response { render json: @node, status: :ok }
   end
 
   # POST /nodes

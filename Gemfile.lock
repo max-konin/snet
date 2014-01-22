@@ -51,6 +51,8 @@ GEM
     factory_girl_rails (4.3.0)
       factory_girl (~> 4.3.0)
       railties (>= 3.0.0)
+    formtastic (2.2.1)
+      actionpack (>= 3.0)
     haml (4.0.4)
       tilt
     haml-rails (0.5.3)
@@ -166,6 +168,7 @@ DEPENDENCIES
   capistrano
   coffee-rails (~> 4.0.0)
   factory_girl_rails (~> 4.0)
+  formtastic
   haml-rails
   jbuilder (~> 1.2)
   jquery-rails
