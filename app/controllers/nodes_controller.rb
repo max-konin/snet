@@ -3,7 +3,7 @@ class NodesController < ApplicationController
   include OnlyJsonResponse
 
   before_action :set_node, only: [:show, :edit, :update, :destroy]
-  before_action :set_graph, only: [:edit, :index, :create]
+  before_action :set_graph
 
   # GET /nodes
   # GET /nodes.json
@@ -42,10 +42,14 @@ class NodesController < ApplicationController
   # PATCH/PUT /nodes/1
   # PATCH/PUT /nodes/1.json
   def update
-    if @node.update(node_params)
-      create_response { head :no_content }
-    else
-      create_response { render json: @node.errors, status: :unprocessable_entity }
+    respond_to do |format|
+      if @node.update(node_params)
+        format.html { redirect_to @graph }
+        format.json { head :no_content }
+      else
+        format.html { render 'edit' }
+        format.json { render json: @node.errors, status: :unprocessable_entity }
+      end
     end
   end
 
