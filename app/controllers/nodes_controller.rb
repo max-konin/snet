@@ -1,4 +1,5 @@
 class NodesController < ApplicationController
+  before_filter :authenticate_user!
 
   include OnlyJsonResponse
 

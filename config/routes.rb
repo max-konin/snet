@@ -1,5 +1,6 @@
 Snet::Application.routes.draw do
 
+  devise_for :users
   root 'graphs#index'
 
   resources :graphs do

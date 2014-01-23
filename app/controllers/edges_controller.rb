@@ -1,4 +1,5 @@
 class EdgesController < ApplicationController
+  before_filter :authenticate_user!
 
   include OnlyJsonResponse
 

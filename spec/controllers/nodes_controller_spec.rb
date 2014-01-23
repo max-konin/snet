@@ -35,6 +35,7 @@ describe NodesController do
     @graph = FactoryGirl.create :graph
     @node = @graph.nodes.create! valid_attributes
     request.accept = 'application/json'
+    sign_in FactoryGirl.create(:user)
   end
 
   describe "GET index" do
@@ -53,6 +54,7 @@ describe NodesController do
 
   describe "GET edit" do
     it "assigns the requested node as @node" do
+      request.accept = 'application/html'
       get :edit, {graph_id: @graph.id, :id => @node.to_param}, valid_session
       assigns(:node).should eq(@node)
     end

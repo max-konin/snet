@@ -30,6 +30,10 @@ describe GraphsController do
   # GraphsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  before(:each) do
+    sign_in FactoryGirl.create(:user)
+  end
+
   describe "GET index" do
     it "assigns all graphs as @graphs" do
       graph = Graph.create! valid_attributes

@@ -35,6 +35,7 @@ describe EdgesController do
     @node_2 = FactoryGirl.create :node, name: 'node_2'
     @graph  = FactoryGirl.create :graph
     request.accept = 'application/json'
+    sign_in FactoryGirl.create(:user)
   end
 
   describe "GET index" do
