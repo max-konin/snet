@@ -1,12 +1,13 @@
 %p#notice= notice
+.row
+  .col-md-8
+    #map
+  .col-md-4
+    - @job.regions.each do r
+      = render 'regions/region', locale: { region: r }
+    %button.add_region
+      Add
 
-%p
-  %b Name:
-  = @job.name
-%p
-  %b Description:
-  = @job.description
-
-= link_to 'Edit', edit_task_path(@job)
 \|
-= link_to 'Back', tasks_path
+= link_to 'Back', jobs_path
+= javascript_include_tag  "jobs", "data-turbolinks-track" => false
