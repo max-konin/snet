@@ -1,6 +1,8 @@
 Snet::Application.routes.draw do
 
-  resources :tasks
+  resources :regions
+
+  resources :jobs
 
   devise_for :users
   root 'graphs#index'

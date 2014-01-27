@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "tasks/new" do
   before(:each) do
-    assign(:task, stub_model(Task,
+    assign(:job, stub_model(Job,
       :name => "MyString",
       :description => "MyString"
     ).as_new_record)

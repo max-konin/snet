@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe "tasks/index" do
   before(:each) do
-    assign(:tasks, [
-      stub_model(Task,
+    assign(:jobs, [
+      stub_model(Job,
         :name => "Name",
         :description => "Description"
       ),
-      stub_model(Task,
+      stub_model(Job,
         :name => "Name",
         :description => "Description"
       )

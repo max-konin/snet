@@ -2,11 +2,11 @@
 
 %p
   %b Name:
-  = @task.name
+  = @job.name
 %p
   %b Description:
-  = @task.description
+  = @job.description
 
-= link_to 'Edit', edit_task_path(@task)
+= link_to 'Edit', edit_task_path(@job)
 \|
 = link_to 'Back', tasks_path

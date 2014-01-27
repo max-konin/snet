@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe "tasks/show" do
   before(:each) do
-    @task = assign(:task, stub_model(Task,
+    @job = assign(:job, stub_model(Job,
       :name => "Name",
       :description => "Description"
     ))
