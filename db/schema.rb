@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140124120048) do
+ActiveRecord::Schema.define(version: 20140127055133) do
 
   create_table "edges", force: true do |t|
     t.string   "name"
@@ -56,6 +56,13 @@ ActiveRecord::Schema.define(version: 20140124120048) do
   add_index "graphs_nodes", ["node_id", "graph_id"], name: "index_graphs_nodes_on_node_id_and_graph_id", using: :btree
   add_index "graphs_nodes", ["node_id"], name: "index_graphs_nodes_on_node_id", using: :btree
 
+  create_table "jobs", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "nodes", force: true do |t|
     t.string   "name"
     t.float    "latitude"
@@ -68,12 +75,23 @@ ActiveRecord::Schema.define(version: 20140124120048) do
 
   add_index "nodes", ["data_id", "data_type"], name: "index_nodes_on_data_id_and_data_type", using: :btree
 
-  create_table "tasks", force: true do |t|
-    t.string   "name"
-    t.string   "description"
+  create_table "points", force: true do |t|
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "region_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "points", ["region_id"], name: "index_points_on_region_id", using: :btree
+
+  create_table "regions", force: true do |t|
+    t.integer  "job_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "regions", ["job_id"], name: "index_regions_on_job_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

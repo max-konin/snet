@@ -157,7 +157,7 @@ describe JobsController do
     it "redirects to the tasks list" do
       task = Job.create! valid_attributes
       delete :destroy, {:id => task.to_param}, valid_session
-      response.should redirect_to(tasks_url)
+      response.should redirect_to(jobs_url)
     end
   end
 

@@ -1,6 +1,6 @@
-class CreateTasks < ActiveRecord::Migration
+class CreateJobs < ActiveRecord::Migration
   def change
-    create_table :tasks do |t|
+    create_table :jobs do |t|
       t.string :name
       t.string :description
 
