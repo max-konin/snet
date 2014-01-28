@@ -62,55 +62,28 @@ describe RegionsController do
         post :create, {job_id: @region.job, region: valid_attributes}
         assigns(:region).should be_a(Region)
         assigns(:region).should be_persisted
+        assigns(:region).points.should have(1).items
       end
 
     end
 
   end
 
-  #describe "PUT update" do
-  #  describe "with valid params" do
-  #    it "updates the requested region" do
-  #      region = Region.create! valid_attributes
-  #      # Assuming there are no other regions in the database, this
-  #      # specifies that the Region created on the previous line
-  #      # receives the :update_attributes message with whatever params are
-  #      # submitted in the request.
-  #      Region.any_instance.should_receive(:update).with({ "task" => "" })
-  #      put :update, {:id => region.to_param, :region => { "task" => "" }}
-  #    end
-  #
-  #    it "assigns the requested region as @region" do
-  #      region = Region.create! valid_attributes
-  #      put :update, {:id => region.to_param, :region => valid_attributes}
-  #      assigns(:region).should eq(region)
-  #    end
-  #
-  #    it "redirects to the region" do
-  #      region = Region.create! valid_attributes
-  #      put :update, {:id => region.to_param, :region => valid_attributes}
-  #      response.should redirect_to(region)
-  #    end
-  #  end
-  #
-  #  describe "with invalid params" do
-  #    it "assigns the region as @region" do
-  #      region = Region.create! valid_attributes
-  #      # Trigger the behavior that occurs when invalid params are submitted
-  #      Region.any_instance.stub(:save).and_return(false)
-  #      put :update, {:id => region.to_param, :region => { "task" => "invalid value" }}
-  #      assigns(:region).should eq(region)
-  #    end
-  #
-  #    it "re-renders the 'edit' template" do
-  #      region = Region.create! valid_attributes
-  #      # Trigger the behavior that occurs when invalid params are submitted
-  #      Region.any_instance.stub(:save).and_return(false)
-  #      put :update, {:id => region.to_param, :region => { "task" => "invalid value" }}
-  #      response.should render_template("edit")
-  #    end
-  #  end
-  #end
+  describe "PUT update" do
+    describe "with valid params" do
+      it "assigns the requested region as @region" do
+        put :update, {job_id: @region.job, id: @region.to_param, region: valid_attributes}
+        assigns(:region).should eq(@region)
+      end
+
+      it "should change points" do
+        put :update, {job_id: @region.job, id: @region.to_param, region: {points: []}}
+        assigns(:region).points.should have(0).items
+      end
+    end
+  end
+
+
 
   describe "DELETE destroy" do
     it "destroys the requested region" do

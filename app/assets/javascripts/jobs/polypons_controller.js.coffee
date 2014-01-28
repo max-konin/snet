@@ -1,18 +1,51 @@
 class @PolygonsController
 
   map: null
+  current_polygon: null
+  polygins: []
 
   constructor : (map)->
     @map = map
-    $('.add_region').on 'click', @create
+    $('.add_region').on 'click', @new_region
+    $('.stop').on 'click', @stop_drawing
 
-  create : =>
-    polygon = new ymaps.Polygon [], {}, {
+    #private methods
+    @get_points = ->
+      return [] if @current_polygon == null
+      points = []
+      for cord in @current_polygon.geometry.getCoordinates()[0]
+        points.push {latitude: cord[0], longitude: cord[1]}
+      return points
+
+  new_region : =>
+    @current_polygon = new ymaps.Polygon [], {}, {
       editorDrawingCursor: "crosshair",
-      editorMaxPoints: 5,
-      fillColor: '#00FF00',
+      fillColor: '#00FF0088',
       strokeColor: '#0000FF',
       strokeWidth: 5
     };
-    @map.geoObjects.add polygon
-    polygon.editor.startDrawing()
+    @map.geoObjects.add @current_polygon
+    @current_polygon.editor.startDrawing()
+
+  stop_drawing : =>
+    unless @current_polygon == null
+      @current_polygon.editor.stopDrawing()
+      @current_polygon.editor.stopEditing()
+      @create()
+
+  create : =>
+    url = document.URL + '/regions'
+    $.ajax(url,
+      dataType: 'json'
+      data: {
+        region: {
+          points: @get_points()
+        }
+      }
+      type: 'POST'
+    )
+
+
+
+
+
