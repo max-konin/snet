@@ -1,10 +1,11 @@
 class RegionsController < ApplicationController
   before_action :set_job
   before_action :set_region, only: [:show, :edit, :update, :destroy]
+  include OnlyJsonResponse
   # GET /regions
   # GET /regions.json
   def index
-    @regions = Region.all
+    @regions = @job.regions.all
   end
 
   # GET /regions/1
@@ -14,7 +15,7 @@ class RegionsController < ApplicationController
 
   # GET /regions/new
   def new
-    @region = Region.new
+    @region = @job.regions.new
   end
 
   # GET /regions/1/edit
@@ -24,12 +25,12 @@ class RegionsController < ApplicationController
   # POST /regions
   # POST /regions.json
   def create
-    @region = Region.new
+    @region = @job.regions.new
     params[:region][:points].each { |p| @region.points.build p}
     respond_to do |format|
       if @region.save
         format.html { redirect_to [@job, @region], notice: 'Region was successfully created.' }
-        format.json { render action: 'show', status: :created, location: [@job, @region] }
+        format.json { render json: @region, status: :created, location: [@job, @region] }
       else
         format.html { render action: 'new' }
         format.json { render json: @region.errors, status: :unprocessable_entity }

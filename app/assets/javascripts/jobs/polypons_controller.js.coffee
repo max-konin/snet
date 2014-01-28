@@ -17,6 +17,12 @@ class @PolygonsController
         points.push {latitude: cord[0], longitude: cord[1]}
       return points
 
+    @points_to_cords = (points)->
+      cords = []
+      for p in points
+        cords.push [p['latitude'], p['longitude']]
+      return cords
+
   new_region : =>
     @current_polygon = new ymaps.Polygon [], {}, {
       editorDrawingCursor: "crosshair",
@@ -35,15 +41,41 @@ class @PolygonsController
 
   create : =>
     url = document.URL + '/regions'
-    $.ajax(url,
+    $.ajax url,
       dataType: 'json'
-      data: {
-        region: {
-          points: @get_points()
+      contentType: 'application/json'
+      data: JSON.stringify {
+          region: {
+            points: @get_points()
+          }
         }
-      }
       type: 'POST'
-    )
+      success: (data) =>
+        @current_polygon = null
+
+
+  get_regions : ->
+    url = document.URL + '/regions'
+    results = $.ajax(url,
+      dataType: 'json'
+      type:     'GET'
+      async:    false,
+    ).responseText;
+    $.parseJSON(results)
+
+  redraw_regions : ->
+    @polygons = []
+    for region in @get_regions()
+      polygon = new ymaps.Polygon [@points_to_cords(region['points']), []],
+        {},
+        {
+          editorDrawingCursor: "crosshair",
+          fillColor: '#00FF0088',
+          strokeColor: '#0000FF',
+          strokeWidth: 5
+        }
+      @map.geoObjects.add polygon
+      @polygons.push polygon
 
 
 
