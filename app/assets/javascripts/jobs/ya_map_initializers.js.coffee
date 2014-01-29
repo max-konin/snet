@@ -1,6 +1,7 @@
 class YaMapInitializer
 
   polygons_controller: null
+  routes_controller: null
 
   constructor : ->
     ymaps.ready(@init)
@@ -9,8 +10,9 @@ class YaMapInitializer
   init : ->
     @myMap = new ymaps.Map 'map', { center:[55, 82.9], zoom: 12, behaviors:['default', 'scrollZoom'] }
     @myMap.behaviors.disable(['dblClickZoom', 'rightMouseButtonMagnifier'])
-    polygons_controller = new PolygonsController(@myMap)
-    polygons_controller.redraw_regions()
+    @polygons_controller = new PolygonsController(@myMap)
+    @polygons_controller.redraw_regions()
+    @routes_controller = new RoutesController polygons_controller, @myMap
 
 
 

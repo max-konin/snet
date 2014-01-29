@@ -6,7 +6,7 @@ Snet::Application.routes.draw do
   end
 
   devise_for :users
-  root 'graphs#index'
+  root 'jobs#index'
 
   resources :graphs do
     resources :nodes
