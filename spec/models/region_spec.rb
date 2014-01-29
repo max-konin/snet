@@ -7,6 +7,7 @@ describe Region do
     region.points.build(latitude: 2, longitude: 2)
     region.points.build(latitude: 0, longitude: 2)
     region.points.build(latitude: 2, longitude: 0)
+    region.points.build(latitude: 0, longitude: 0)
     region.save
 
     center = region.center

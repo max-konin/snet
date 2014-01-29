@@ -6,10 +6,11 @@ class Region < ActiveRecord::Base
   def center
     lat  = 0
     long = 0
-    points.each do |p|
+    unique_points = points.select('latitude, longitude').uniq
+    unique_points.each do |p|
       lat  += p.latitude
       long += p.longitude
     end
-    Point.new latitude: (lat / points.count), longitude: (long / points.count)
+    Point.new latitude: (lat / unique_points.length), longitude: (long / unique_points.length)
   end
 end

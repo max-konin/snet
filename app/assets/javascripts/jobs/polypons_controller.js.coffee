@@ -77,6 +77,13 @@ class @PolygonsController
       @map.geoObjects.add polygon
       @polygons.push polygon
 
+      center = new ymaps.Circle([[region.center.latitude, region.center.longitude], 100], {
+      }, {
+        draggable: false
+        strokeColor: "#496DAB"
+        fillColor:   "#496DAB"
+      });
+      @map.geoObjects.add center
 
 
 
