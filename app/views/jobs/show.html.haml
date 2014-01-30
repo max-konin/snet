@@ -1,16 +1,31 @@
+-content_for :nav_menu do
+  %ul.nav.navbar-nav
+    %li.dropdown
+      %a.dropdown-toggle{'data-toggle' => 'dropdown'}
+        Regions
+        %b.caret
+      %ul.dropdown-menu
+        %li
+          %a.add_region
+            Add new
+        %li
+          %a.stop
+            Create
+    %li.dropdown
+      %a.dropdown-toggle{'data-toggle' => 'dropdown'}
+        Routes
+        %b.caret
+      %ul.dropdown-menu
+        %li
+          %a.build_routes
+            Build
+    %li
+      =link_to 'Recalculate!', @job
+
+
 %p#notice= notice
 .row
-  .col-md-8
+  .col-md-12
     #map
-  .col-md-4
-    %button.add_region
-      Add
-    %button.stop
-      Create
-    %button.build_routes
-      Build Routes
-    =link_to 'Recalculate!', @job
 
-\|
-= link_to 'Back', jobs_path
 = javascript_include_tag  "jobs", "data-turbolinks-track" => false
