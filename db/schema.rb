@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140127055133) do
+ActiveRecord::Schema.define(version: 20140205114109) do
 
   create_table "edges", force: true do |t|
     t.string   "name"
@@ -61,7 +61,10 @@ ActiveRecord::Schema.define(version: 20140127055133) do
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
   end
+
+  add_index "jobs", ["user_id"], name: "index_jobs_on_user_id", using: :btree
 
   create_table "nodes", force: true do |t|
     t.string   "name"

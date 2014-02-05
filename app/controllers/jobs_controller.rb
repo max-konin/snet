@@ -1,11 +1,12 @@
 class JobsController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_filter :authenticate_user!
+  load_and_authorize_resource except: [:create]
 
   # GET /tasks
   # GET /tasks.json
   def index
-    @jobs = Job.all
+    @jobs = current_user.jobs
   end
 
   # GET /tasks/1
@@ -15,7 +16,7 @@ class JobsController < ApplicationController
 
   # GET /tasks/new
   def new
-    @job = Job.new
+    @job = current_user.jobs.new
   end
 
   # GET /tasks/1/edit
@@ -25,7 +26,7 @@ class JobsController < ApplicationController
   # POST /tasks
   # POST /tasks.json
   def create
-    @job = Job.new(task_params)
+    @job = current_user.jobs.new(task_params)
 
     respond_to do |format|
       if @job.save

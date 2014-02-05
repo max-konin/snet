@@ -21,142 +21,124 @@ require 'spec_helper'
 describe JobsController do
 
   # This should return the minimal set of attributes required to create a valid
-  # Task. As you add validations to Task, be sure to
+  # @job. As you add validations to @job, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "name" => "MyString" } }
+  let(:valid_attributes) { { "name" => "MyString", 'description' => 'desc'} }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
-  # TasksController. Be sure to keep this updated too.
+  # @jobsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   before(:each) do
-    sign_in FactoryGirl.create(:user)
+    @user = FactoryGirl.create(:user)
+    sign_in  @user
+    @job = @user.jobs.create! valid_attributes
   end
 
   describe "GET index" do
-    it "assigns all tasks as @tasks" do
-      task = Job.create! valid_attributes
+    it "assigns all jobs as @jobs" do
       get :index, {}, valid_session
-      assigns(:jobs).should eq([task])
+      assigns(:jobs).should eq([@job])
+    end
+    
+    it 'cannot see other users jobs' do
+      other_job = FactoryGirl.create(:user).jobs.create valid_attributes
+      get :index, {}
+      assigns(:jobs).should eq([@job])
     end
   end
 
   describe "GET show" do
-    it "assigns the requested task as @task" do
-      task = Job.create! valid_attributes
-      get :show, {:id => task.to_param}, valid_session
-      assigns(:job).should eq(task)
+    it "assigns the requested job as @job" do
+      get :show, {id: @job.to_param}
+      assigns(:job).should eq(@job)
+    end
+
+    it 'can see only my job' do
+      other_job = FactoryGirl.create(:user).jobs.create valid_attributes
+      expect { get :show, {id: other_job.to_param} }.to raise_error(CanCan::AccessDenied)
     end
   end
 
   describe "GET new" do
-    it "assigns a new task as @task" do
-      get :new, {}, valid_session
+    it "assigns a new @job as @@job" do
+      get :new
       assigns(:job).should be_a_new(Job)
     end
   end
 
   describe "GET edit" do
-    it "assigns the requested task as @task" do
-      task = Job.create! valid_attributes
-      get :edit, {:id => task.to_param}, valid_session
-      assigns(:job).should eq(task)
+    it "assigns the requested job as @job" do
+      get :edit, {id: @job.to_param}
+      assigns(:job).should eq(@job)
+    end
+
+    it 'can edit only my job' do
+      other_job = FactoryGirl.create(:user).jobs.create valid_attributes
+      expect { get :edit, {id: other_job.to_param} }.to raise_error(CanCan::AccessDenied)
     end
   end
 
   describe "POST create" do
     describe "with valid params" do
-      it "creates a new Task" do
+      it "creates a new @job" do
         expect {
-          post :create, {:job => valid_attributes}, valid_session
+          post :create, {job: valid_attributes}
         }.to change(Job, :count).by(1)
       end
 
-      it "assigns a newly created task as @task" do
-        post :create, {:job => valid_attributes}, valid_session
+      it "assigns a newly created @job as @@job" do
+        post :create, {job: valid_attributes}
         assigns(:job).should be_a(Job)
         assigns(:job).should be_persisted
       end
 
-      it "redirects to the created task" do
-        post :create, {:job => valid_attributes}, valid_session
+      it "redirects to the created @job" do
+        post :create, {job: valid_attributes}
         response.should redirect_to(Job.last)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns a newly created but unsaved task as @task" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Job.any_instance.stub(:save).and_return(false)
-        post :create, {:job => { "name" => "invalid value" }}, valid_session
-        assigns(:job).should be_a_new(Job)
-      end
-
-      it "re-renders the 'new' template" do
-        # Trigger the behavior that occurs when invalid params are submitted
-        Job.any_instance.stub(:save).and_return(false)
-        post :create, {:job => { "name" => "invalid value" }}, valid_session
-        response.should render_template("new")
       end
     end
   end
 
   describe "PUT update" do
     describe "with valid params" do
-      it "updates the requested task" do
-        task = Job.create! valid_attributes
-        # Assuming there are no other tasks in the database, this
-        # specifies that the Task created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
+      it "updates the requested @job" do
         Job.any_instance.should_receive(:update).with({ "name" => "MyString" })
-        put :update, {:id => task.to_param, :job => { "name" => "MyString" }}, valid_session
+        put :update, {:id => @job.to_param, :job => { "name" => "MyString" }}, valid_session
       end
 
-      it "assigns the requested task as @task" do
-        task = Job.create! valid_attributes
-        put :update, {:id => task.to_param, :job => valid_attributes}, valid_session
-        assigns(:job).should eq(task)
+      it "assigns the requested @job as @@job" do
+        put :update, {:id => @job.to_param, :job => valid_attributes}, valid_session
+        assigns(:job).should eq(@job)
       end
 
-      it "redirects to the task" do
-        task = Job.create! valid_attributes
-        put :update, {:id => task.to_param, :job => valid_attributes}, valid_session
-        response.should redirect_to(task)
-      end
-    end
-
-    describe "with invalid params" do
-      it "assigns the task as @task" do
-        task = Job.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Job.any_instance.stub(:save).and_return(false)
-        put :update, {:id => task.to_param, :job => { "name" => "invalid value" }}, valid_session
-        assigns(:job).should eq(task)
+      it 'can update only my job' do
+        other_job = FactoryGirl.create(:user).jobs.create valid_attributes
+        expect { get :update, {id: other_job.to_param} }.to raise_error(CanCan::AccessDenied)
       end
 
-      it "re-renders the 'edit' template" do
-        task = Job.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        Job.any_instance.stub(:save).and_return(false)
-        put :update, {:id => task.to_param, :job => { "name" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+      it "redirects to the @job" do
+        put :update, {:id => @job.to_param, :job => valid_attributes}, valid_session
+        response.should redirect_to(@job)
       end
     end
   end
 
   describe "DELETE destroy" do
-    it "destroys the requested task" do
-      task = Job.create! valid_attributes
+    it "destroys the requested @job" do
       expect {
-        delete :destroy, {:id => task.to_param}, valid_session
+        delete :destroy, {id: @job.to_param}, valid_session
       }.to change(Job, :count).by(-1)
     end
 
-    it "redirects to the tasks list" do
-      task = Job.create! valid_attributes
-      delete :destroy, {:id => task.to_param}, valid_session
+    it 'can destroy only my job' do
+      other_job = FactoryGirl.create(:user).jobs.create valid_attributes
+      expect { get :destroy, {id: other_job.to_param} }.to raise_error(CanCan::AccessDenied)
+    end
+
+    it "redirects to the @jobs list" do
+      delete :destroy, {id: @job.to_param}, valid_session
       response.should redirect_to(jobs_url)
     end
   end
