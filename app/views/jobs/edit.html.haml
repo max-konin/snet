@@ -1,7 +1,8 @@
-%h1 Editing task
+%h1
+  = t 'jobs.actions.edit'
 
 = render 'form'
 
-= link_to 'Show', @job
+= link_to t('jobs.actions.show'), @job
 \|
-= link_to 'Back', tasks_path
+= link_to t('back'), tasks_path

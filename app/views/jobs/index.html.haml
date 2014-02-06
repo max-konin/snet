@@ -1,21 +1,24 @@
-%h1 Listing tasks
+%h1
+  =Job.model_name.human count: 2
 
 %table
   %tr
-    %th Name
-    %th Description
+    %th 
+      = Job.human_attribute_name :name
+    %th
+      = Job.human_attribute_name :description
     %th
     %th
     %th
 
-  - @jobs.each do |task|
+  - @jobs.each do |job|
     %tr
-      %td= task.name
-      %td= task.description
-      %td= link_to 'Show', task
-      %td= link_to 'Edit', edit_job_path(task)
-      %td= link_to 'Destroy', task, :method => :delete, :data => { :confirm => 'Are you sure?' }
+      %td= job.name
+      %td= job.description
+      %td= link_to t('jobs.actions.show'), job
+      %td= link_to t('jobs.actions.edit'), edit_job_path(job)
+      %td= link_to t('jobs.actions.destroy'), job, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-= link_to 'New Task', new_job_path
+= link_to t('jobs.actions.new'), new_job_path

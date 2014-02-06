@@ -1,0 +1,34 @@
+ru:
+  recal: Пересчитать центры
+
+  region:
+    actions:
+      create: Сохранить новый
+      add: Добавить новый
+  jobs:
+    actions:
+      new: Новая работа
+      show: Октрыть
+      destroy: Удалить
+      edit: Редактировать
+
+  back: Назад
+
+  activerecord:
+    models:
+      job:
+        one: Работа
+        few: Работы
+        many: Работ
+        other: Работ
+      region:
+        one: Район
+        few: Района
+        many: Районов
+        other: Района
+
+    attributes:
+      job:
+        name: Название
+        description: Описание
+        user: Пользователь

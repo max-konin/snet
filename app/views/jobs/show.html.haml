@@ -2,27 +2,27 @@
   %ul.nav.navbar-nav
     %li.dropdown
       %a.dropdown-toggle{'data-toggle' => 'dropdown'}
-        Regions
+        = Region.model_name.human
         %b.caret
       %ul.dropdown-menu
         %li
           %a.add_region
-            Add new
+            = t('region.actions.add')
         %li
           %a.stop
-            Create
+            = t('region.actions.create')
     %li.dropdown
       %a.dropdown-toggle{'data-toggle' => 'dropdown'}
-        Routes
+        Маршруты
         %b.caret
       %ul.dropdown-menu
         %li
           %a.build_routes
-            Build
+            Построить
     %li
-      =link_to 'Recalculate!', @job
+      =link_to t('recal'), @job
     %li
-      =link_to 'All tasks', jobs_path
+      =link_to 'Все задания', jobs_path
 
 
 %p#notice= notice
