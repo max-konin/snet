@@ -9,6 +9,7 @@ Snet::Application.routes.draw do
   root 'jobs#index'
 
   resources :graphs do
+    post 'get_mst', on: :collection
     resources :nodes
     resources :edges
   end

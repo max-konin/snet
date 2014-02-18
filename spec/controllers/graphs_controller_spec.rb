@@ -161,4 +161,29 @@ describe GraphsController do
     end
   end
 
+  describe 'POST get_mst' do
+    before :each do
+      @graph = Graph.new
+      4.times { |i| @graph.nodes << Node.new(latitude: i, longitude: i) }
+      3.times do |i|
+        edge = Edge.new(nodes: [@graph.nodes[i], @graph.nodes[i + 1]])
+        edge.weight = 1
+        @graph.edges << edge
+      end
+      edge = Edge.new(nodes: [@graph.nodes[0], @graph.nodes[3]])
+      edge.weight = 100
+      @graph
+    end
+
+    it 'assign a graph as @graph' do
+      post :get_mst, {edges: @graph.edges.as_json(include: :nodes, methods: :weight)}
+      assigns(:graph).should_not be_nil
+    end
+
+    it 'assign a nst as @mst' do
+      post :get_mst, {edges: @graph.edges.as_json(include: :nodes, methods: :weight)}
+      assigns(:mst).should_not be_nil
+    end
+  end
+
 end

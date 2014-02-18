@@ -8,7 +8,7 @@ module PrimaAlgorithm
     added_nodes     = [tree.nodes.first]
     remaining_nodes = tree.nodes.all.from(1)
     tree.edges << prima_do(added_nodes, remaining_nodes, true)
-    while remaining_nodes.empty?
+    while !remaining_nodes.empty?
       tree.edges << prima_do(added_nodes, remaining_nodes)
     end
     tree
