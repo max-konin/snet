@@ -23,4 +23,16 @@ describe Job do
       expect(job.create_region!.job_id).to eq(job.id)
     end
   end
+
+  describe '#build_region!' do
+    it 'cannot create region if job was not saved' do
+      job = FactoryGirl.build :job
+      expect{job.build_region!}.to raise_error(ActiveRecord::RecordNotSaved)
+    end
+
+    it "return region with job_id eq owner's id" do
+      job = FactoryGirl.create :job
+      expect(job.build_region!.job_id).to eq(job.id)
+    end
+  end
 end

@@ -12,4 +12,12 @@ class Job < ActiveRecord::Base
       raise ActiveRecord::RecordNotSaved, 'You cannot call create unless the parent is saved'
     end
   end
+
+  def build_region!
+    if self.persisted?
+      Region.new job_id: self.id
+    else
+      raise ActiveRecord::RecordNotSaved, 'You cannot call create unless the parent is saved'
+    end
+  end
 end

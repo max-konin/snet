@@ -37,14 +37,14 @@ describe RegionsController do
 
   describe "GET index" do
     it "assigns all regions as @regions" do
-      get :index, {job_id: @region.job}
-      assigns(:regions).should eq([@region])
+      get :index, {job_id: @region.job_id}
+      assigns(:regions).each.to_a.should eq([@region])
     end
   end
 
   describe "GET show" do
     it "assigns the requested region as @region" do
-      get :show, {job_id: @region.job, id: @region.to_param}
+      get :show, {job_id: @region.job_id, id: @region.to_param}
       assigns(:region).should eq(@region)
     end
   end
@@ -54,41 +54,26 @@ describe RegionsController do
     describe "with valid params" do
       it "creates a new Region" do
         expect {
-          post :create, {job_id: @region.job, region: valid_attributes}
+          post :create, {job_id: @region.job_id, region: valid_attributes}
         }.to change(Region, :count).by(1)
       end
 
       it "assigns a newly created region as @region" do
-        post :create, {job_id: @region.job, region: valid_attributes}
+        post :create, {job_id: @region.job_id, region: valid_attributes}
         assigns(:region).should be_a(Region)
         assigns(:region).should be_persisted
-        assigns(:region).points.should have(1).items
+        assigns(:region).points.to_a.should have(1).items
       end
 
     end
 
   end
-
-  describe "PUT update" do
-    describe "with valid params" do
-      it "assigns the requested region as @region" do
-        put :update, {job_id: @region.job, id: @region.to_param, region: valid_attributes}
-        assigns(:region).should eq(@region)
-      end
-
-      it "should change points" do
-        put :update, {job_id: @region.job, id: @region.to_param, region: {points: []}}
-        assigns(:region).points.should have(0).items
-      end
-    end
-  end
-
 
 
   describe "DELETE destroy" do
     it "destroys the requested region" do
       expect {
-        delete :destroy, {job_id: @region.job, id: @region.to_param}
+        delete :destroy, {job_id: @region.job_id, id: @region.to_param}
       }.to change(Region, :count).by(-1)
     end
   end

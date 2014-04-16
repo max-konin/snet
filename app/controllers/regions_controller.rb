@@ -5,7 +5,7 @@ class RegionsController < ApplicationController
   # GET /regions
   # GET /regions.json
   def index
-    @regions = @job.regions.all
+    @regions = @job.regions
   end
 
   # GET /regions/1
@@ -15,7 +15,7 @@ class RegionsController < ApplicationController
 
   # GET /regions/new
   def new
-    @region = @job.regions.new
+    @region = @job.build_region!
   end
 
   # GET /regions/1/edit
@@ -25,48 +25,27 @@ class RegionsController < ApplicationController
   # POST /regions
   # POST /regions.json
   def create
-    @region = @job.regions.new
-    params[:region][:points].each { |p| @region.points.build p}
-    respond_to do |format|
-      if @region.save
-        format.html { redirect_to [@job, @region], notice: 'Region was successfully created.' }
-        format.json { render json: @region, status: :created, location: [@job, @region] }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @region.errors, status: :unprocessable_entity }
-      end
+    @region = @job.create_region!
+    params[:region][:points].each { |p| @region.points << Point.create(p)}
+    if @region.save
+      respond_with [@job, @region], status: :created
+    else
+      respond_with @region.errors, status: :unprocessable_entity
     end
-  end
 
-  # PATCH/PUT /regions/1
-  # PATCH/PUT /regions/1.json
-  def update
-    @region.points.destroy_all
-    respond_to do |format|
-      if @region.save
-        format.html { redirect_to [@job, @region], notice: 'Region was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @region.errors, status: :unprocessable_entity }
-      end
-    end
   end
-
   # DELETE /regions/1
   # DELETE /regions/1.json
   def destroy
     @region.destroy
-    respond_to do |format|
-      format.html { redirect_to job_region_url }
-      format.json { head :no_content }
-    end
+    head :no_content
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_region
       @region = Region.find(params[:id])
+      raise ActiveRecordError::RecordNotFound if @region.blank? || !(@region.is_a? Region)
     end
 
     def set_job
