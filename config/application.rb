@@ -5,6 +5,7 @@ require "active_record/railtie"
 require "action_controller/railtie"
 require "action_mailer/railtie"
 require "sprockets/railtie"
+require 'neo4j/railtie'
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -26,5 +27,9 @@ module Snet
     config.i18n.default_locale = :ru
     config.i18n.locale = :ru
     config.autoload_paths += %W(#{config.root}/lib)
+
+    # Neo4j configs.
+    config.neo4j.session_type = :server_db
+    config.neo4j.session_path = 'http://localhost:7474'
   end
 end

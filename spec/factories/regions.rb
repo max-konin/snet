@@ -2,6 +2,6 @@
 
 FactoryGirl.define do
   factory :region do
-    job { FactoryGirl.create :job }
+    job_id { (FactoryGirl.create :job).id }
   end
 end

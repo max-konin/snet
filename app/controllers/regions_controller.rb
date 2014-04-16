@@ -1,7 +1,7 @@
 class RegionsController < ApplicationController
   before_action :set_job
   before_action :set_region, only: [:show, :edit, :update, :destroy]
-  include OnlyJsonResponse
+  respond_to :json
   # GET /regions
   # GET /regions.json
   def index
