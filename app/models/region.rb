@@ -1,8 +1,14 @@
 class Region
   include Neo4j::ActiveNode
   property :job_id, type: Integer
+  property :subscribers_count,  type: Integer
 
   has_n(:points).from(Point, :consist_in)
+  has_one(:connected_to).to(Station)
+
+  def get_nearest(regions)
+    regions.min_by { |x| Metrics.dist(self.center, x.center) }
+  end
 
   def center
     lat  = 0
