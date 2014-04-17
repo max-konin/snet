@@ -15,7 +15,7 @@ class RegionsController < ApplicationController
 
   # GET /regions/new
   def new
-    @region = @job.build_region!
+    @region = @job.build_region
   end
 
   # GET /regions/1/edit
