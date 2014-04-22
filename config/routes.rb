@@ -3,7 +3,9 @@ Snet::Application.routes.draw do
 
   resources :jobs do
     resources :regions
-    resources :stations
+    resources :stations do
+      get 'dotting', on: :collection
+    end
   end
 
   devise_for :users

@@ -13,19 +13,20 @@ class Job < ActiveRecord::Base
     regions = self.regions.each.to_a
     return false if regions.empty?
     last_station = Station.create! capacity: capacity, job_id: self.id
-    unless regions.empty?
-      nearest_region = get_nearest_region regions, last_station.serves.each.to_a
+    until regions.empty?
+      nearest_region = get_nearest_region regions, last_station.serves.to_a
       last_station = Station.create! capacity: capacity, job_id: self.id unless last_station.can_serves? nearest_region.subscribers_count
-      last_station.serves << nearest_region
+      last_station.serves << regions.delete(nearest_region)
     end
     stations.each {|s| s.set_optimal_cords!}
+    true
   end
 
   protected
 
   def get_nearest_region(from_regions, to_regions)
     return from_regions.first if to_regions.empty?
-    from_regions.min_by { |x| Metrics.dist x, x.get_nearest(to_regions) }
+    from_regions.min_by { |x| Metrics.dist x.center, x.get_nearest(to_regions).center }
   end
 
   def destroy_regions

@@ -26,6 +26,7 @@ class RegionsController < ApplicationController
   # POST /regions.json
   def create
     @region = @job.create_region!
+    @region.subscribers_count = params[:region][:subscribers_count]
     params[:region][:points].each { |p| @region.points << Point.create(p)}
     if @region.save
       respond_with [@job, @region], status: :created

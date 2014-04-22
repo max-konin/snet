@@ -15,7 +15,7 @@ class Station
   def can_serves?(subscribers_count)
     sum = subscribers_count
     serves.each { |r| sum += r.subscribers_count}
-    sum >= self.capacity
+    sum <= self.capacity
   end
 
   def set_optimal_cords!
@@ -26,8 +26,10 @@ class Station
       p = r.center
       lat  += p.latitude * r.subscribers_count
       long += p.longitude * r.subscribers_count
-      subscribers_count += subscribers_count
+      subscribers_count += r.subscribers_count
     end
-    Point.new latitude: (lat / subscribers_count), longitude: (long / subscribers_count)
+    self.latitude  = lat / subscribers_count
+    self.longitude = long / subscribers_count
+    save!
   end
 end

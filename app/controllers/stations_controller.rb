@@ -40,6 +40,15 @@ class StationsController < ApplicationController
     head :no_content
   end
 
+  def dotting
+   if @job.dotting_stations! 1000
+     @stations = @job.stations
+     respond_with @stations
+   else
+     status 500
+   end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_station

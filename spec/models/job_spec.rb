@@ -1,6 +1,29 @@
 require 'spec_helper'
 
 describe Job do
+  describe '#dotting_stations!' do
+    describe 'simple' do
+      before do
+        @job = FactoryGirl.create :job
+        FactoryGirl.create :region, job_id: @job.id, points: [FactoryGirl.create(:point, latitude: 0, longitude: 0)]
+        FactoryGirl.create :region, job_id: @job.id, points: [FactoryGirl.create(:point, latitude: 2, longitude: 2)]
+      end
+
+      it 'create one station' do
+        expect{@job.dotting_stations! 1000}.to change{@job.stations.count}.to(1)
+      end
+
+      it 'return station with cords (1,1)' do
+        @job.dotting_stations! 1000
+        stations = @job.stations
+        expect(stations.first.latitude).to  eq(1)
+        expect(stations.first.longitude).to eq(1)
+      end
+
+    end
+  end
+
+
   describe '#regions' do
     before do
       @job = FactoryGirl.create :job
