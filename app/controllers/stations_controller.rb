@@ -41,7 +41,7 @@ class StationsController < ApplicationController
   end
 
   def dotting
-   if @job.dotting_stations! 1000
+   if @job.dotting_stations! @job.stations_capacity
      @stations = @job.stations
      respond_with @stations
    else

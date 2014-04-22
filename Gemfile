@@ -63,6 +63,7 @@ group :development do
   gem 'capistrano'
   gem 'rvm-capistrano'
   gem 'nginx-config'
+  gem 'net-ssh', '~> 2.7.0'
 end
 
 gem 'rvm-capistrano'

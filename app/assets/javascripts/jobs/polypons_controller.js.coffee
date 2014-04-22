@@ -46,7 +46,6 @@ class @PolygonsController
       contentType: 'application/json'
       data: JSON.stringify {
           region: {
-            subscribers_count: 400
             points: @get_points()
           }
         }

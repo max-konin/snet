@@ -31,4 +31,6 @@ ru:
       job:
         name: Название
         description: Описание
+        regions_subscribers_count: Количество абонентов у района по умолчанию
+        stations_capacity: Мощность станции по умолчанию
         user: Пользователь

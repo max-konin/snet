@@ -2,6 +2,8 @@
   = f.inputs do
     = f.input :name
     = f.input :description
+    = f.input :stations_capacity,         input_html: { value: 1000 }
+    = f.input :regions_subscribers_count, input_html: { value: 300 }
 
   = f.actions do
     = f.action :submit, :as => :input
