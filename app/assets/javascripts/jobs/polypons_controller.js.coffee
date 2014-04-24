@@ -6,8 +6,8 @@ class @PolygonsController
 
   constructor : (map)->
     @map = map
-    $('.add_region').on 'click', @new_region
-    $('.stop').on 'click', @stop_drawing
+    $('.add_region').on    'click', @new_region
+    $('.create_region').on 'click', @stop_drawing
 
     #private methods
     @get_points = ->
@@ -38,6 +38,7 @@ class @PolygonsController
       @current_polygon.editor.stopDrawing()
       @current_polygon.editor.stopEditing()
       @create()
+      $('#region-edit').modal('hide')
 
   create : =>
     url = document.URL + '/regions'
@@ -46,6 +47,7 @@ class @PolygonsController
       contentType: 'application/json'
       data: JSON.stringify {
           region: {
+            subscribers_count: $('#subscribers_count').val()
             points: @get_points()
           }
         }

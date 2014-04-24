@@ -9,7 +9,7 @@
           %a.add_region
             = t('region.actions.add')
         %li
-          %a.stop
+          %a{'data-toggle' => 'modal',  'data-target' => '#region-edit'}
             = t('region.actions.create')
     %li.dropdown
       %a.dropdown-toggle{'data-toggle' => 'dropdown'}
@@ -44,5 +44,18 @@
 .row
   .col-md-12
     #map
+
+.modal.fade#region-edit
+  .modal-dialog
+    .modal-content
+      .modal-header
+        Создать район
+      .modal-body
+        %lable.label
+          Количество абонентов
+        %input#subscribers_count
+      .modal-footer
+        %button.btn.btn-default.create_region
+          Создать
 
 = javascript_include_tag  "jobs", "data-turbolinks-track" => false
