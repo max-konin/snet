@@ -12,8 +12,8 @@ class YaMapInitializer
     @myMap.behaviors.disable(['dblClickZoom', 'rightMouseButtonMagnifier'])
     @polygons_controller = new PolygonsController(@myMap)
     @polygons_controller.redraw_regions()
-    @routes_controller = new RoutesController @polygons_controller, @myMap
     @stations_controller = new StationsController @polygons_controller, @myMap
+    @routes_controller = new RoutesController @polygons_controller, @stations_controller, @myMap
 
 
 

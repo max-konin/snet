@@ -21,18 +21,18 @@
             Расставить автоматически
     %li.dropdown
       %a.dropdown-toggle{'data-toggle' => 'dropdown'}
-        Маршруты
+        Алгоритмы
         %b.caret
       %ul.dropdown-menu
         %li
           %a.build_routes
-            Полный граф
+            Соеденить каждую станцию с каждой. Полный граф
         %li
           %a.buld_hamilton
             Гамильтонов путь
-        %li
-          %a.build_mst
-            Найти минимальный остов
+        -#%li
+        -#  %a.build_mst
+        -#    Найти минимальный остов
 
     %li
       =link_to t('recal'), @job

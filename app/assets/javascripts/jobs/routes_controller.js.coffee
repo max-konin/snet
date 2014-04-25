@@ -3,8 +3,8 @@ class @RoutesController
   graph: new Graph()
   routes: []
 
-  constructor: (polygons_controller, map)->
-    @polygons_controller = polygons_controller
+  constructor: (polygons_controller, stationsController, map)->
+    @stationsController = stationsController
     @map = map
 
     $('.build_routes').on  'click', @build_routes
@@ -31,31 +31,31 @@ class @RoutesController
 
   build_hamilton_route: =>
     @clear_routes()
-    regions = @polygons_controller.get_regions()
-    @build_route @regions_to_points(regions)
+    stations = @stationsController.getStations()
+    @build_route @stations_to_points(stations)
 
   build_routes: =>
     @clear_routes()
     @graph = new Graph()
-    regions = @polygons_controller.get_regions()
-    for i in [0..(regions.length-2)]
-      for j in [i+1..(regions.length-1)]
-        points = @regions_to_points([regions[i], regions[j]])
+    stations = @stationsController.getStations()
+    for i in [0..(stations.length-2)]
+      for j in [i+1..(stations.length-1)]
+        points = @stations_to_points([stations[i], stations[j]])
         @build_route points, @addition_graph
 
   build_route: (points, callback = null)->
     ymaps.route(points).then (route) =>
-      route.getWayPoints().options.set('preset', 'twirl#blackDotIcon');
+      route.getWayPoints().options.set 'visible', false
       @map.geoObjects.add(route)
       callback(points, route) unless callback == null
       @routes.push route
     , (error)->
       alert("Возникла ошибка: " + error.message)
 
-  regions_to_points: (regions) ->
+  stations_to_points: (stations) ->
     arr = []
-    for region in regions
-      arr.push [region.center.latitude, region.center.longitude]
+    for station in stations
+      arr.push [station.latitude, station.longitude]
     arr
 
   addition_graph: (points, route)=>

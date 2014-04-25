@@ -33,7 +33,7 @@ class @StationsController
       type:     'GET'
       async:    false,
     ).responseText;
-    @redraw
+    @redraw()
 
   drawStation: (station) =>
     station_geo = new ymaps.GeoObject(
