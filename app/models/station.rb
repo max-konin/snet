@@ -8,6 +8,8 @@ class Station
 
   has_n(:serves).from(Region, :connected_to)
 
+  has_n(:connections)
+
   def full?
     can_serves? 0
   end

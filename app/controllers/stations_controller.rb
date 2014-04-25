@@ -42,8 +42,7 @@ class StationsController < ApplicationController
 
   def dotting
    if @job.dotting_stations! @job.stations_capacity
-     @stations = @job.stations
-     respond_with @stations
+     redirect_to job_stations_path(@job)
    else
      status 500
    end
