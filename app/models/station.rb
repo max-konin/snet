@@ -14,6 +14,16 @@ class Station
     can_serves? 0
   end
 
+  def twoway_connect_to(station, weight)
+    connections.create station, weight: weight
+    station.connections.create self, weight: weight
+  end
+
+  def connections_to_other(stations)
+    stations_ids = stations.is_a?(Array) ? stations.map { |s| s.id } : [stations.id]
+    connections_rels.to_a.select { |r| stations_ids.include?(r.start_node.id) || stations_ids.include?(r.end_node.id) }
+  end
+
   def can_serves?(subscribers_count)
     sum = subscribers_count
     serves.each { |r| sum += r.subscribers_count}
