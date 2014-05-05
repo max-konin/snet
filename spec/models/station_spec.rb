@@ -2,6 +2,11 @@ require 'spec_helper'
 
 describe Station do
 
+  it 'set default name like: Станция-#{id}' do
+    stantion = Station.create
+    expect(stantion.name).to eq "Станция-#{stantion.id}"
+  end
+
   describe '#twoway_connect_to' do
     before :each do
       @station_1 = Station.create

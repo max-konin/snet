@@ -10,6 +10,8 @@ class Station
 
   has_n(:connections)
 
+  after_create :set_name
+
   def full?
     can_serves? 0
   end
@@ -42,6 +44,12 @@ class Station
     end
     self.latitude  = lat / subscribers_count
     self.longitude = long / subscribers_count
+    save!
+  end
+
+  protected
+  def set_name
+    self.name ||= "Станция-#{self.id}"
     save!
   end
 end

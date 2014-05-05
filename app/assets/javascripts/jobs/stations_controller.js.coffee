@@ -50,7 +50,7 @@ class @StationsController
         },
         properties: {
           iconContent: station.capacity,
-          balloonContent: "<p>Станция</p><p>Макс. нагрузка: #{station.capacity}</p>"
+          balloonContent: "<p>#{station.name}</p><p>Макс. нагрузка: #{station.capacity}</p>"
         }
       },
       {preset: 'twirl#redStretchyIcon'} )
