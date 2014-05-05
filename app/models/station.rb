@@ -15,7 +15,7 @@ class Station
   end
 
   def twoway_connect_to(station, weight)
-    connections.create station, weight: weight
+    self.connections.create station, weight: weight
     station.connections.create self, weight: weight
   end
 

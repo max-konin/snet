@@ -24,10 +24,9 @@ class StationsController < ApplicationController
 
   def connect
     params[:edges].each do |edge|
-      source = @job.stations.find(edge[:source].to_i).first
-      target = @job.stations.find(edge[:target].to_i).first
-      source.connections.create(target,
-                                weight: edge[:weight].to_i) unless source.nil? || target.nil? || edge[:weight].blank?
+      source = (@job.stations.select { |s| s.id == edge[:source] }).first
+      target = (@job.stations.select { |s| s.id == edge[:target] }).first
+      source.twoway_connect_to(target, edge[:weight].to_i) unless source.nil? || target.nil? || edge[:weight].blank?
     end
     head :ok
   end

@@ -36,6 +36,9 @@ describe StationsController do
   let(:valid_attributes) { { latitude: 1.5, longitude: 1.5, name: 'mts' } }
 
   describe 'POST connect' do
+
+    let(:edges) { [{source: @station_1.id, target: @station_2.id, weight: 100}] }
+
     before :each do
       @job = FactoryGirl.create :job
       @station_1 = @job.create_station
@@ -46,8 +49,6 @@ describe StationsController do
     after :each do
       @job.destroy
     end
-
-    let(:edges) { [{source: @station_1.id, target: @station_2.id, weight: 100}] }
 
     it 'return status 200' do
       expect(response.status).to eq(200)
