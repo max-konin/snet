@@ -4,9 +4,11 @@ class @StationsController
   stations: []
   regions: []
   polygons_controller: null
+  routes_controller:   null
 
   constructor : (polygons_controller, map)->
     @polygons_controller = polygons_controller
+    @routes_controller = new RoutesController @polygons_controller, @, map
     @map = map
     $('.dotting').on 'click', @redotting
     @redraw()
@@ -17,14 +19,18 @@ class @StationsController
       dataType: 'json'
       type:     'GET'
       async:    false,
-    ).responseText;
+    ).responseText
     $.parseJSON(results)
 
   redraw: ->
     @regions =  @polygons_controller.get_regions()
-    for station in @getStations()
+    stations = @getStations()
+    for station in stations
       @drawStation station
       @connectStationToRegions station
+    @routes_controller.connect_stations(stations)
+
+
 
   redotting: =>
     url = document.URL + '/stations/dotting'
@@ -50,6 +56,7 @@ class @StationsController
       {preset: 'twirl#redStretchyIcon'} )
     @map.geoObjects.add station_geo
     @stations.push station_geo
+
 
   connectStationToRegions: (station) =>
     regions_for_station = []

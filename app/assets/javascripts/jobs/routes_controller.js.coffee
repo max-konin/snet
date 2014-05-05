@@ -1,6 +1,6 @@
 class @RoutesController
 
-  graph: new Graph()
+  edges:  []
   routes: []
 
   constructor: (polygons_controller, stationsController, map)->
@@ -12,42 +12,55 @@ class @RoutesController
     $('.build_mst').on     'click', @build_mst
 
   build_mst: =>
-    return alert "Сначалу нужно построить маршруты" if @graph.edges.length == 0
-    url = '/graphs/get_mst'
+
+    return alert "Сначалу нужно построить маршруты" if @edges.length == 0
+    url = document.location + '/stations/mst'
     $.ajax url,
       dataType: 'json'
       contentType: "application/json; charset=utf-8"
-      data: JSON.stringify  {edges: @graph.edges}
-      type:     'POST'
+      data: JSON.stringify  {edges: @edges}
+      type: 'POST'
       success: (result) =>
-        @clear_routes()
-        for edge in result
-          points = []
-          for node in edge.nodes
-            points.push [node.latitude, node.longitude]
-          @build_route points
+        @connect_stations result
 
 
 
   build_hamilton_route: =>
     @clear_routes()
     stations = @stationsController.getStations()
-    @build_route @stations_to_points(stations)
+    @build_route stations
+
+  connect_stations: (stations) ->
+    @clear_routes()
+    for station in stations
+      for connection in station.connections
+        @build_route [station, (stations.filter (s) -> s.id == connection.id)[0]]
+
 
   build_routes: =>
     @clear_routes()
-    @graph = new Graph()
     stations = @stationsController.getStations()
     for i in [0..(stations.length-2)]
       for j in [i+1..(stations.length-1)]
-        points = @stations_to_points([stations[i], stations[j]])
-        @build_route points, @addition_graph
+        @build_route [stations[i], stations[j]], @add_edge
 
-  build_route: (points, callback = null)->
+  connect: ->
+    url = document.URL + '/stations/connect'
+    $.ajax url,
+      dataType: 'json'
+      contentType: 'application/json'
+      data: JSON.stringify {
+        edges: @edges
+      }
+      type: 'POST'
+
+
+  build_route: (stations, callback = null)->
+    points = @stations_to_points(stations)
     ymaps.route(points).then (route) =>
       route.getWayPoints().options.set 'visible', false
       @map.geoObjects.add(route)
-      callback(points, route) unless callback == null
+      callback(stations, route) unless callback == null
       @routes.push route
     , (error)->
       alert("Возникла ошибка: " + error.message)
@@ -58,13 +71,8 @@ class @RoutesController
       arr.push [station.latitude, station.longitude]
     arr
 
-  addition_graph: (points, route)=>
-    nodes = []
-    for point in points
-      nodes.push new Node(point[0], point[1])
-    @graph.nodes += nodes
-    edge = new Edge(nodes, route.getLength())
-    @graph.edges.push edge
+  add_edge: (stations, route)=>
+    @edges.push {source: stations[0], target: stations[1], weight: route.getLength()}
 
   clear_routes: ->
     for route in @routes

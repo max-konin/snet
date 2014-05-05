@@ -22,13 +22,22 @@ class StationsController < ApplicationController
   def edit
   end
 
-  def connect
+  def reconnect
+    @job.stations.each do |station|
+      station.connections_rels.each {|r| r.del}
+    end
     params[:edges].each do |edge|
-      source = (@job.stations.select { |s| s.id == edge[:source] }).first
-      target = (@job.stations.select { |s| s.id == edge[:target] }).first
+      source = (@job.stations.select { |s| s.id == edge[:source][:id] }).first
+      target = (@job.stations.select { |s| s.id == edge[:target][:id] }).first
       source.twoway_connect_to(target, edge[:weight].to_i) unless source.nil? || target.nil? || edge[:weight].blank?
     end
-    head :ok
+  end
+
+  def mst
+    reconnect
+    PrimaAlgorithm.do! @job.stations.to_a
+    @stations = @job.stations
+    redirect_to job_stations_path
   end
 
   # POST /regions

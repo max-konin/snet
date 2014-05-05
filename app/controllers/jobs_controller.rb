@@ -23,6 +23,7 @@ class JobsController < ApplicationController
   def edit
   end
 
+
   # POST /tasks
   # POST /tasks.json
   def create

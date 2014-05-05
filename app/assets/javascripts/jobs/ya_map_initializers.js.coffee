@@ -13,7 +13,6 @@ class YaMapInitializer
     @polygons_controller = new PolygonsController(@myMap)
     @polygons_controller.redraw_regions()
     @stations_controller = new StationsController @polygons_controller, @myMap
-    @routes_controller = new RoutesController @polygons_controller, @stations_controller, @myMap
 
 
 
