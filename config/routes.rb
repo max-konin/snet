@@ -5,6 +5,7 @@ Snet::Application.routes.draw do
     resources :regions
     resources :stations do
       get 'dotting', on: :collection
+      post 'connect', on: :collection
     end
   end
 

@@ -35,6 +35,29 @@ describe StationsController do
   # adjust the attributes here as well.
   let(:valid_attributes) { { latitude: 1.5, longitude: 1.5, name: 'mts' } }
 
+  describe 'POST connect' do
+    before :each do
+      @job = FactoryGirl.create :job
+      @station_1 = @job.create_station
+      @station_2 = @job.create_station
+      post :connect, job_id: @job, edges: edges
+    end
+
+    after :each do
+      @job.destroy
+    end
+
+    let(:edges) { [{source: @station_1.id, target: @station_2.id, weight: 100}] }
+
+    it 'return status 200' do
+      expect(response.status).to eq(200)
+    end
+
+    it 'set connection with weight' do
+      expect(@station_1.connections_rels.first[:weight]).to eq(100)
+    end
+  end
+
   describe "GET index" do
     it "assigns all stations as @stations" do
       get :index, {job_id: @station.job_id}

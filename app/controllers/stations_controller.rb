@@ -22,6 +22,16 @@ class StationsController < ApplicationController
   def edit
   end
 
+  def connect
+    params[:edges].each do |edge|
+      source = @job.stations.find(edge[:source].to_i).first
+      target = @job.stations.find(edge[:target].to_i).first
+      source.connections.create(target,
+                                weight: edge[:weight].to_i) unless source.nil? || target.nil? || edge[:weight].blank?
+    end
+    head :ok
+  end
+
   # POST /regions
   # POST /regions.json
   def create
